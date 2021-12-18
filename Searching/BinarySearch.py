@@ -13,7 +13,7 @@ low = 0
 high = len(li) - 1
 
 def binarySearch(li, low, high, search):
-    if low >= high:
+    if low > high:
         return -1  # element is not present in the array
     
     mid = low + (high - low) // 2
