@@ -17,7 +17,7 @@ class Conversion:
     def isEmpty(self):
         return True if self.top == -1 else False
     
-    # return the value of the top the stack
+    # return the value of the top of the stack
     def peek(self):
         return self.array[self.top]
     
@@ -83,10 +83,19 @@ class Conversion:
         while not self.isEmpty():
             self.output.append(self.pops())
         
-        print("".join(self.output))
+        return "".join(self.output)
             
 
 # exp = "a+b*(c^d-e)^(f+g*h)-i"
+# exp = "( A + B ) * C"
+# exp = "A + B * C / D - E"
+# exp = "( A + B * ( C - D ) ) / E"
+
 exp = input("Enter Infix Expression: ")
+
+# removing spaces from the expression using replace() or using split() and join() function
+# exp = exp.replace(" ","")
+exp = "".join(exp.split())
+
 obj = Conversion(len(exp))
-obj.infixToPostfix(exp)
+print("Postfix Expression:", obj.infixToPostfix(exp))
