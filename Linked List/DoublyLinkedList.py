@@ -21,6 +21,9 @@ Similar to insertion, we can also delete a node from 3 different positions of a 
 3. Delete the last node of DLL
 '''
 
+# for garbage collection
+import gc 
+
 # A doubly linked list node
 class Node:
     
@@ -108,9 +111,37 @@ class DoublyLinkedList:
         # make the prev of new_node as last node(temp)
         new_node.prev = temp
     
+    # function to delete a node from the DLL
+    # dele is pointer to the node to be deleted
+    def deleteNode(self, dele):
+
+        # if head or dele is null, deletion is not possible
+        if self.head is None or dele is None:
+            return
+        
+        # if dele is head node, point the head pointer to the next of dele
+        if self.head == dele:
+            self.head = dele.next
+        
+        # if dele is not a last node, point the prev of next node to dele to the prev of dele
+        if dele.next is not None:
+            dele.next.prev = dele.prev
+        
+        # if dele is not the first node, point the next of the previous node to the next of dele
+        if dele.prev is not None:
+            dele.prev.next = dele.next
+        
+        # finally, free the memory occupied by dele
+        # call python garbage collector
+        gc.collect()
+
     # prints contents of linked list starting from the given node
     # prints in both the direction i.e forward and backward
     def display(self, node):
+        if node is None:
+            print("Linked list is empty")
+            return
+
         print("\nTraversal in forward direction")
         while node:
             print(node.data, end=" ->")
@@ -127,14 +158,16 @@ def main():
     dll = DoublyLinkedList()
 
     while True:
-        print("\nDOUBLY LINKED LIST MENU")
-        print("1. Insert at the Beginning\t2. Insert After\t3. Insert at the End\t4. Display\t5. Exit")
+        print("\n\nDOUBLY LINKED LIST MENU")
+        print("1. Insert at the Beginning\t2. Insert After\t3. Insert at the End\t4. Delete a node\t5. Display\t6. Exit")
         
         choice = int(input("Enter your choice: "))
-        
+        next1 = []
+
         if choice == 1:
             data = input("Enter the data to insert: ")
             dll.insertStart(data)
+
         elif choice == 2:
             data = input("Enter the data to insert: ")
             pos = int(input("Enter the position at which the element is to be inserted: "))
@@ -142,13 +175,24 @@ def main():
             next1 = "".join(next1)
             prev_node = 'dll.head' + next1      # prev_node = dll.head.next.next.next....
             dll.insertAfter(eval(prev_node), data)
+
         elif choice == 3:
             data = input("Enter the data to insert: ")
             dll.insertEnd(data)
+
         elif choice == 4:
-            dll.display(dll.head)
+            pos = int(input("Enter the position of the element which is to be deleted: "))
+            next1 = ['.next']*(pos - 1)
+            next1 = "".join(next1)
+            dele = 'dll.head' + next1
+            dll.deleteNode(eval(dele))
+
         elif choice == 5:
+            dll.display(dll.head)
+
+        elif choice == 6:
             break
+        
         else:
             print("Invalid choice! Please enter a valid choice!")
 
