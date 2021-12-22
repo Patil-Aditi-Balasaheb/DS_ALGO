@@ -4,6 +4,11 @@
 
 # time complexity = O(n^2) - bcoz there are 2 nested loops
 # space complexity = O(1)
+# selection sort is not stable nor adaptable
+# sorting in min no. of swaps
+# no. of passes = n - 1
+# total comparisons = n * (n - 1) / 2
+# max swaps = n - 1
 
 def selectionSort(arr, n):
     
